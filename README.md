@@ -58,7 +58,7 @@ The API will respond with a JSON object containing information about the the IP 
 
 ## Configuration
 
-You can customize the DNSBLs to query by editing the `config.ts` file. 
+You can customize the DNSBLs to query by editing the [config.ts](src/config.ts) file. 
 
 Note that Cloudflare Workers currently only supports 6 simultaneous requests, so the more DNSBLs you add, the longer it will take to search with the "full" strategy.
 
