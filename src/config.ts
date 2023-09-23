@@ -5,4 +5,5 @@ export const blacklists = [
     "b.barracudacentral.org",
     "spam.dnsbl.anonmails.de",
     "dnsbl.sorbs.net",
+    "tor.dan.me.uk"
 ]
