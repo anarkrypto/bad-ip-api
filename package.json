@@ -1,4 +1,6 @@
 {
+  "name": "bad-ip-api",
+  "author": "Anarkrypto <anarkrypto@gmail.com>",
   "scripts": {
     "dev": "wrangler dev src/index.ts",
     "deploy": "wrangler deploy --minify src/index.ts"
