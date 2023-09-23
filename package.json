@@ -4,6 +4,7 @@
     "deploy": "wrangler deploy --minify src/index.ts"
   },
   "dependencies": {
+    "@hono/zod-validator": "^0.1.8",
     "hono": "^3.6.0"
   },
   "devDependencies": {

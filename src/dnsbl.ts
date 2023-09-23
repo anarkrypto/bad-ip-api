@@ -7,8 +7,11 @@ export default class DNSBLs {
 
 	dnsbls: string[];
 
-	constructor(dnsbls: string[]) {
+	responseThreshold: number
+
+	constructor(dnsbls: string[], responseThreshold?: number) {
 		this.dnsbls = dnsbls;
+		this.responseThreshold = responseThreshold || this.dnsbls.length
 	}
 
 	async checkRecordExists(name: string): Promise<boolean> {
@@ -22,17 +25,27 @@ export default class DNSBLs {
 		}
 	}
 
-	async searchByIP(ip: string) {
-		const reverseIP = ip.split(".").reverse().join(".");
+	searchByIP(ip: string) {
+		return new Promise(async (resolve) => {
 
-		const found = await Promise.all(
-			this.dnsbls.map(async (dnsbl) => {
+			const reverseIP = ip.split(".").reverse().join(".");
+
+			const found: string[] = []
+
+			const promises = this.dnsbls.map(async (dnsbl) => {
 				const exists = await this.checkRecordExists(`${reverseIP}.${dnsbl}`);
-				return { dnsbl, exists };
+				if (exists){
+					found.push(dnsbl);
+					if (found.length >= this.responseThreshold) {
+						resolve(found)
+					}
+				}
+				console.log(`${dnsbl} ${exists} ${this.responseThreshold}`)
 			})
-		);
-		return found
-			.filter((result) => result.exists)
-			.map((result) => result.dnsbl);
+
+			await Promise.all(promises)
+
+			resolve(found) 
+		})
 	}
 }
