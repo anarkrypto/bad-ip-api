@@ -25,7 +25,7 @@ export default class DNSBLs {
 		}
 	}
 
-	searchByIP(ip: string) {
+	searchByIP(ip: string): Promise<string[]> {
 		return new Promise(async (resolve) => {
 
 			const reverseIP = ip.split(".").reverse().join(".");
