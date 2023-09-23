@@ -3,14 +3,18 @@ import { blacklists } from "./config";
 import DNSBLs from "./dnsbl";
 import { z } from "zod";
 import { zValidator } from "@hono/zod-validator";
+import { errorHandler } from "./middlewares";
 
 const app = new Hono();
+
+app.onError(errorHandler)
 
 const querySchema = z.object({
 	strategy: z.enum(["full", "quick"]).optional()
 }).strict();
 
 app.get("/:ip", zValidator("query", querySchema), async (c) => {
+	
 	const ip = c.req.param("ip");
 
 	const strategy = c.req.query("strategy");
